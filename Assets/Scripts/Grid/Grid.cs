@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 public class Grid : MonoBehaviour
 {
+    public ShapeStorage shapeStorage;
     public int columns = 0;
     public int rows = 0;
     public float squaresGap = 0.1f;
@@ -14,7 +15,16 @@ public class Grid : MonoBehaviour
     private Vector2 _offset = new Vector2(0.0f, 0.0f);
     private List<GameObject> _gridSquares = new List<GameObject>();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void OnEnable()
+    {
+        GameEvent.CheckIfShapeCanBePlaced += CheckIfShapeCanBePlaced;
+    }
+
+    private void OnDisable()
+    {
+        GameEvent.CheckIfShapeCanBePlaced -= CheckIfShapeCanBePlaced;
+    }
+
     void Start()
     {
         CreatGrid();
@@ -82,6 +92,19 @@ public class Grid : MonoBehaviour
             square.GetComponent<RectTransform>().localPosition = new Vector3(startPosition.x + pos_x_offset, startPosition.y - pos_y_offset, 0.0f);
             column_number++;
         }
+    }
+
+    private void CheckIfShapeCanBePlaced()
+    {
+        foreach(var square in _gridSquares)
+        {
+            var gridSquare = square.GetComponent<GridSquare>();
+            if(gridSquare.CanWeUseThisSquare() == true)
+            {
+                gridSquare.ActivateSquare();
+            }
+        }
+        shapeStorage.GetCurrentSelectedShape().DeactivateShape();
     }
 }
 
