@@ -9,6 +9,13 @@ public class GridSquare : MonoBehaviour
     public Image normalImage;
     public List<Sprite> normalImages;
 
+    private Config.SquareColor currentSquareColor_ = Config.SquareColor.NotSet;
+
+    public Config.SquareColor GetCurrentColor()
+    {
+        return currentSquareColor_;
+    }
+
     public bool Selected {get;set;}
     public int SquareIndex {get;set;}
     public bool SquareOccupied {get;set;}
@@ -26,6 +33,12 @@ public class GridSquare : MonoBehaviour
         return hooverImage.gameObject.activeSelf;
     }
 
+    public void PlaceShapeOnBoard(Config.SquareColor color)
+    {
+        currentSquareColor_ = color;
+        ActivateSquare();
+    }
+
     public void ActivateSquare()
     {
         hooverImage.gameObject.SetActive(false);
@@ -34,19 +47,17 @@ public class GridSquare : MonoBehaviour
         SquareOccupied = true;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void Deactivate()
     {
-        hooverImage.gameObject.SetActive(true);
+        currentSquareColor_  = Config.SquareColor.NotSet;
+        activeImage.gameObject.SetActive(false);
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    public void ClearOccupied()
     {
-        hooverImage.gameObject.SetActive(true);
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        hooverImage.gameObject.SetActive(false);
+        currentSquareColor_  = Config.SquareColor.NotSet;
+        Selected = false;
+        SquareOccupied = false;
     }
 
     public void SetImage(bool setFistImages)
@@ -54,4 +65,45 @@ public class GridSquare : MonoBehaviour
         normalImage.GetComponent<Image>().sprite = setFistImages ? normalImages[1] : normalImages[0];
         
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(SquareOccupied == false)
+        {
+            Selected = true;
+            hooverImage.gameObject.SetActive(true);
+        }
+        else if(collision.GetComponent<ShapeSquare>() != null)
+        {
+            collision.GetComponent<ShapeSquare>().SetOccupied();
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        Selected = true;
+        
+        if(SquareOccupied == false)
+        {
+            hooverImage.gameObject.SetActive(true);
+        }
+        else if(collision.GetComponent<ShapeSquare>() != null)
+        {
+            collision.GetComponent<ShapeSquare>().SetOccupied();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(SquareOccupied == false)
+        {
+            Selected = false;
+            hooverImage.gameObject.SetActive(false);
+        }
+        else if(collision.GetComponent<ShapeSquare>() != null)
+        {
+            collision.GetComponent<ShapeSquare>().UnSetOccupied();
+        }
+    }
+
 }

@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 52922723195187917}
   - component: {fileID: 2894209713549323172}
   - component: {fileID: 1867941638208570607}
+  - component: {fileID: 7188933304769559037}
   - component: {fileID: 3692621688325458227}
   - component: {fileID: 7959163245509004391}
   m_Layer: 5
@@ -157,7 +158,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c291a59caf791bd489263e112ad6357c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 434b420abd183f34db951cba49f79162, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -167,6 +168,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7188933304769559037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114454438588874451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2898cbe9eeaa75a42bd01f7be3e5a60b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSquareImage
+  squareTextureData: {fileID: 11400000, guid: 6e2deee1bd255754aab8c85661c31226, type: 2}
+  updateImageOnRechedTreshold: 1
 --- !u!50 &3692621688325458227
 Rigidbody2D:
   serializedVersion: 5

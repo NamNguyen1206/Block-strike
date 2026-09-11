@@ -5,7 +5,17 @@ public class ShapeStorage : MonoBehaviour
 {
     public List<ShapeData> shapeData;
     public List<Shape> shapeList;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    private void OnEnable()
+    {
+        GameEvent.RequestNewShapes += RequestNewShapes;
+    }
+
+    private void OnDisable()
+    {
+        GameEvent.RequestNewShapes -= RequestNewShapes;
+    }
+
     void Start()
     {
         foreach(var shape in shapeList)
@@ -26,4 +36,12 @@ public class ShapeStorage : MonoBehaviour
         return null;
     }
 
+    private void RequestNewShapes()
+    {
+        foreach(var shape in shapeList)
+        {
+            var shapeIndex  = UnityEngine.Random.Range(0, shapeData.Count);
+            shape.RequestNewSquare(shapeData[shapeIndex]);
+        }
+    }
 }
